@@ -2,110 +2,89 @@ public class ObjPcs {
 
     private String Serial;
     private String Marca;
-    private String Ram;
-    private String DiscoDuro;
+    private int Ram;
+    private int DiscoDuro;
     private double Precio;
-    private String NombreEst;
-    private String Carnet;
     private boolean Disponible;
+    private int Cantidad;
+    private ObjEstudiante EstudianteAsignado;
 
-    //Constructor vacio
+    // Constructor vacio
     public ObjPcs() {
     }
 
-    //Constructor 
-    public ObjPcs(String serial, String marca, String ram, String discoDuro, double precio, String nombreEst,
-            String carnet, boolean disponible) {
-                
+    public ObjPcs(String serial, String marca, int ram, int discoDuro, double precio, boolean disponible,
+            int cantidad, ObjEstudiante estudianteAsignado) {
         Serial = serial;
         Marca = marca;
         Ram = ram;
         DiscoDuro = discoDuro;
         Precio = precio;
-        NombreEst = nombreEst;
-        Carnet = carnet;
         Disponible = disponible;
+        Cantidad = cantidad;
     }
-
 
     public String getSerial() {
         return Serial;
     }
 
-
     public void setSerial(String serial) {
         Serial = serial;
     }
-
 
     public String getMarca() {
         return Marca;
     }
 
-
     public void setMarca(String marca) {
         Marca = marca;
     }
 
-
-    public String getRam() {
+    public int getRam() {
         return Ram;
     }
 
-
-    public void setRam(String ram) {
+    public void setRam(int ram) {
         Ram = ram;
     }
 
-
-    public String getDiscoDuro() {
+    public int getDiscoDuro() {
         return DiscoDuro;
     }
 
-
-    public void setDiscoDuro(String discoDuro) {
+    public void setDiscoDuro(int discoDuro) {
         DiscoDuro = discoDuro;
     }
-
 
     public double getPrecio() {
         return Precio;
     }
 
-
     public void setPrecio(double precio) {
         Precio = precio;
     }
-
-
-    public String getNombreEst() {
-        return NombreEst;
-    }
-
-
-    public void setNombreEst(String nombreEst) {
-        NombreEst = nombreEst;
-    }
-
-
-    public String getCarnet() {
-        return Carnet;
-    }
-
-
-    public void setCarnet(String carnet) {
-        Carnet = carnet;
-    }
-
 
     public boolean isDisponible() {
         return Disponible;
     }
 
-
     public void setDisponible(boolean disponible) {
         Disponible = disponible;
     }
 
-    
+    public int getCantidad() {
+        return Cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
+        Cantidad = cantidad;
+    }
+
+    public ObjEstudiante getEstudianteAsignado() {
+        return EstudianteAsignado;
+    }
+
+    public void setEstudianteAsignado() {
+        EstudianteAsignado = estudianteAsignado;
+    }
 }
