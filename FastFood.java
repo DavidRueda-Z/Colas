@@ -1,10 +1,8 @@
-
-
-public class FastFood 
-{
+public class FastFood {
     private String Tipo;
-    private double Precio;
+    private Double Precio;
     private int Cantidad;
+    private String NombreCliente;
 
     public FastFood() {
     }
@@ -17,11 +15,11 @@ public class FastFood
         Tipo = tipo;
     }
 
-    public double getPrecio() {
+    public Double getPrecio() {
         return Precio;
     }
 
-    public void setPrecio(double precio) {
+    public void setPrecio(Double precio) {
         Precio = precio;
     }
 
@@ -33,6 +31,12 @@ public class FastFood
         Cantidad = cantidad;
     }
 
-    
-    
+    public String getNombreCliente() {
+        return NombreCliente;
+    }
+
+    public void setNombreCliente(String nombreCliente) {
+        NombreCliente = nombreCliente;
+    }
+
 }

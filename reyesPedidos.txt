@@ -1,0 +1,15 @@
+NOmbreCliente: DA
+TipoComida: Perro
+Cantidad: 3
+Precio: 3000.0
+---------------------------------------
+NOmbreCliente: den
+TipoComida: Perro
+Cantidad: 1
+Precio: 10000.0
+---------------------------------------
+NOmbreCliente: sol
+TipoComida: burger
+Cantidad: 4
+Precio: 30000.0
+---------------------------------------
