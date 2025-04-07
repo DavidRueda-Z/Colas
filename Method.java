@@ -52,12 +52,8 @@ public class Method {
             System.out.println("No hay pedidos");
             System.out.println("-----------------------------");
         } else {
-            for (FastFood fastFood : p) {
-                p.remove(fastFood);
-            }
-
+                p.remove();
         }
         return p;
-
     }
 }
