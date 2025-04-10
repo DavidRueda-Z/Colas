@@ -1,0 +1,298 @@
+
+// Esto va en metodos
+
+public Queue<FastFood> IngresarPedido(Queue<FastFood> p) {
+    System.out.println("Ingrese el nombre del cliente:");
+    String nombre = sc.next();
+
+    FastFood existente = buscarPorNombre(p, nombre);
+    if (existente != null) {
+        System.out.println("Ya existe un pedido a nombre de '" + nombre + "'.");
+        System.out.println("¿Desea agregar más productos a ese pedido? (1: Sí, 2: No, usar otro nombre)");
+        int respuesta = sc.nextInt();
+        if (respuesta == 2) {
+            System.out.println("Ingrese un nuevo nombre:");
+            nombre = sc.next();
+            existente = null; // lo tratamos como nuevo pedido
+        }
+    }
+
+    FastFood pedido;
+    if (existente == null) {
+        pedido = new FastFood();
+        pedido.setNombreCliente(nombre);
+    } else {
+        pedido = existente;
+    }
+
+    boolean agregarMas = true;
+    while (agregarMas) {
+        String tipo = seleccionarTipoComida();
+        int cantidad = solicitarCantidad();
+        double precioUnitario = obtenerPrecioPorTipo(tipo);
+
+        pedido.agregarProducto(new ItemPedido(tipo, cantidad, precioUnitario));
+
+        System.out.println("¿Desea agregar otro producto? (1: Sí, 2: No)");
+        int seguir = sc.nextInt();
+        agregarMas = (seguir == 1);
+    }
+
+    // Solo agregar si es nuevo
+    if (existente == null) {
+        p.offer(pedido);
+    }
+
+    System.out.println("Pedido registrado con éxito. Total acumulado: $" + pedido.getTotal());
+
+    return p;
+}
+
+private String seleccionarTipoComida() {
+    System.out.println("Seleccione el tipo de comida:");
+    System.out.println("1. Perro ($8000)");
+    System.out.println("2. Burger ($12000)");
+    System.out.println("3. Chorizo ($7000)");
+    System.out.println("4. French Fries ($5000)");
+
+    int tipo = sc.nextInt();
+    switch (tipo) {
+        case 1:
+            return "Perro";
+        case 2:
+            return "Burger";
+        case 3:
+            return "Chorizo";
+        default:
+            return "French Fries";
+    }
+}
+
+private double obtenerPrecioPorTipo(String tipo) {
+    switch (tipo.toLowerCase()) {
+        case "perro":
+            return 8000;
+        case "burger":
+            return 12000;
+        case "chorizo":
+            return 7000;
+        default:
+            return 5000;
+    }
+}
+
+private int solicitarCantidad() {
+    System.out.println("Ingrese la cantidad:");
+    while (!sc.hasNextInt()) {
+        System.out.println("Cantidad no válida. Intente nuevamente:");
+        sc.next();
+    }
+    return sc.nextInt();
+}
+
+public void MostrarTurno(Queue<FastFood> p) {
+    if (p.isEmpty()) {
+        System.out.println("No hay Turnos, acabaste de entrar a trabajar");
+        System.out.println("-----------------------------");
+    } else {
+        int turno = 1;
+        for (FastFood pedido : p) {
+            System.out.println("Turno #" + turno++);
+            System.out.println("Cliente: " + pedido.getNombreCliente());
+            System.out.println("Productos:");
+            for (ItemPedido item : pedido.getProductos()) {
+                System.out.println(" - " + item.getTipo() + " x" + item.getCantidad() +
+                        " @ $" + item.getPrecioUnitario() + " = $" + item.getSubtotal());
+            }
+            System.out.println("Total del pedido: $" + pedido.getTotal());
+            System.out.println("-----------------------------");
+        }
+    }
+}
+
+public void exportarArchivo(Queue<FastFood> p) {
+    try (FileWriter escriba = new FileWriter("reyesPedidos.txt")) {
+        for (FastFood pedido : p) {
+            escriba.write("NombreCliente: " + pedido.getNombreCliente() + "\n");
+            escriba.write("Productos:\n");
+            for (ItemPedido item : pedido.getProductos()) {
+                escriba.write(" - " + item.getTipo() + " x" + item.getCantidad() +
+                              " @ $" + item.getPrecioUnitario() +
+                              " = $" + item.getSubtotal() + "\n");
+            }
+            escriba.write("Total del Pedido: $" + pedido.getTotal() + "\n");
+            escriba.write("---------------------------------------\n");
+        }
+        System.out.println("Archivo exportado correctamente");
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
+
+public Queue<FastFood> ModificarPedido(Queue<FastFood> p) {
+    if (p.isEmpty()) {
+        System.out.println("No hay pedidos en cola.");
+        return p;
+    }
+
+    System.out.println("Ingrese el nombre del cliente cuyo pedido desea modificar:");
+    String nombreBuscar = sc.next();
+
+    Queue<FastFood> temporal = new LinkedList<>();
+    boolean encontrado = false;
+
+    while (!p.isEmpty()) {
+        FastFood actual = p.poll();
+
+        if (actual.getNombreCliente().equalsIgnoreCase(nombreBuscar) && !encontrado) {
+            encontrado = true;
+            System.out.println("Pedido encontrado:");
+            mostrarPedido(actual);
+
+            System.out.println("¿Qué desea hacer?");
+            System.out.println("1. Modificar cantidad de un producto");
+            System.out.println("2. Eliminar un producto");
+            System.out.println("3. Agregar un nuevo producto");
+
+            int opcion = sc.nextInt();
+
+            switch (opcion) {
+                case 1:
+                    modificarCantidadProducto(actual);
+                    break;
+                case 2:
+                    eliminarProducto(actual);
+                    break;
+                case 3:
+                    agregarProducto(actual);
+                    break;
+                default:
+                    System.out.println("Opción no válida. No se realizaron cambios.");
+            }
+
+            System.out.println("Pedido actualizado. Nuevo total: $" + actual.getTotal());
+        }
+
+        temporal.offer(actual);
+    }
+
+    if (!encontrado) {
+        System.out.println("No se encontró ningún pedido con ese nombre.");
+    }
+
+    return temporal;
+}
+
+
+private void mostrarPedido(FastFood pedido) {
+    for (int i = 0; i < pedido.getProductos().size(); i++) {
+        ItemPedido item = pedido.getProductos().get(i);
+        System.out.println((i + 1) + ". " + item.getTipo() + " x" + item.getCantidad() + 
+                           " @ $" + item.getPrecioUnitario() + " = $" + item.getSubtotal());
+    }
+}
+
+private void modificarCantidadProducto(FastFood pedido) {
+    mostrarPedido(pedido);
+    System.out.println("Seleccione el número del producto a modificar:");
+    int index = sc.nextInt() - 1;
+    if (index >= 0 && index < pedido.getProductos().size()) {
+        System.out.println("Ingrese la nueva cantidad:");
+        int nuevaCantidad = sc.nextInt();
+        ItemPedido item = pedido.getProductos().get(index);
+        item.sumarCantidad(nuevaCantidad - item.getCantidad());
+    } else {
+        System.out.println("Índice inválido.");
+    }
+}
+
+private void eliminarProducto(FastFood pedido) {
+    mostrarPedido(pedido);
+    System.out.println("Seleccione el número del producto a eliminar:");
+    int index = sc.nextInt() - 1;
+    if (index >= 0 && index < pedido.getProductos().size()) {
+        pedido.getProductos().remove(index);
+        System.out.println("Producto eliminado.");
+    } else {
+        System.out.println("Índice inválido.");
+    }
+}
+
+private void agregarProducto(FastFood pedido) {
+    String tipo = seleccionarTipoComida();
+    int cantidad = solicitarCantidad();
+    double precioUnitario = obtenerPrecioPorTipo(tipo);
+    pedido.agregarProducto(new ItemPedido(tipo, cantidad, precioUnitario));
+    System.out.println("Producto agregado.");
+}
+
+// HAGO DOS OBJETOS
+
+public class ItemPedido {
+    private String tipo;
+    private int cantidad;
+    private double precioUnitario;
+
+    public ItemPedido(String tipo, int cantidad, double precioUnitario) {
+        this.tipo = tipo;
+        this.cantidad = cantidad;
+        this.precioUnitario = precioUnitario;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public double getPrecioUnitario() {
+        return precioUnitario;
+    }
+
+    public double getSubtotal() {
+        return cantidad * precioUnitario;
+    }
+
+    public void sumarCantidad(int extra) {
+        this.cantidad += extra;
+    }
+}
+
+//SEGUNDO OBJETOS
+import java.util.ArrayList;
+import java.util.List;
+
+public class FastFood {
+    private String nombreCliente;
+    private List<ItemPedido> productos;
+
+    public FastFood() {
+        productos = new ArrayList<>();
+    }
+
+    public String getNombreCliente() {
+        return nombreCliente;
+    }
+
+    public void setNombreCliente(String nombreCliente) {
+        this.nombreCliente = nombreCliente;
+    }
+
+    public List<ItemPedido> getProductos() {
+        return productos;
+    }
+
+    public void agregarProducto(ItemPedido item) {
+        productos.add(item);
+    }
+
+    public double getTotal() {
+        double total = 0;
+        for (ItemPedido item : productos) {
+            total += item.getSubtotal();
+        }
+        return total;
+    }
+}

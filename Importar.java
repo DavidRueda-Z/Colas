@@ -27,9 +27,9 @@ public class Importar {
                         pedido.setCantidad(Integer.parseInt(line.substring(10)));
 
                     }
-                } else if (line.startsWith("Precio: ")) {
+                } else if (line.startsWith("Total: ")) {
                     if (pedido != null) {
-                        pedido.setPrecio(Double.parseDouble(line.substring(8))); // Remover "Cantidad: "
+                        pedido.setTotal(Double.parseDouble(line.substring(7))); // Remover "Cantidad: "
                         p.add(pedido); // Añadir el producto al final del archivo
                         pedido = null; // Reiniciar para el siguiente producto
                     }

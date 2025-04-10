@@ -1,15 +1,15 @@
-NOmbreCliente: DA
-TipoComida: Perro
-Cantidad: 3
-Precio: 3000.0
----------------------------------------
 NOmbreCliente: den
 TipoComida: Perro
 Cantidad: 1
-Precio: 10000.0
+Total: 2000.0
 ---------------------------------------
-NOmbreCliente: sol
-TipoComida: burger
+NOmbreCliente: DAVID
+TipoComida: French Fries
 Cantidad: 4
-Precio: 30000.0
+Total: 20000.0
+---------------------------------------
+NOmbreCliente: DAVID
+TipoComida: Perro
+Cantidad: 84
+Total: 672000.0
 ---------------------------------------

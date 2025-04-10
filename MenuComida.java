@@ -9,21 +9,20 @@ public class MenuComida {
         Scanner sc = new Scanner(System.in);
         while (bandera) {
             System.out.println("-----------------------------");
-            System.out.println("Bienvenidos a estructuras fries!!");
-            System.out.println("Que desea comer!!");
+            System.out.println("Ingrese su pedido");
             System.out.println("1: Perro");
             System.out.println("2: Burger");
             System.out.println("3: Chorizo");
             System.out.println("4: French Fries");
-            System.out.println("5: Salir");
+            System.out.println("5: Volver");
             while (!sc.hasNextInt()) {
                 System.out.println("Opción no valida por favor verifique....");
                 System.out.println("-----------------------------------------------");
                 sc.next();
-
             }
             opt = sc.nextInt();
             sc.nextLine();
+
             if (opt < 1 || opt > 5) {
                 System.out.println("Por favor ingrese un numero entre 1 a 5");
                 System.out.println("-------------------------------------------");
@@ -38,7 +37,6 @@ public class MenuComida {
                     break;
 
                 default:
-                    System.out.println("Fue un Gusto hasta Pronto...");
                     bandera = false;
                     break;
             }

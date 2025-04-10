@@ -1,6 +1,6 @@
 public class FastFood {
     private String Tipo;
-    private Double Precio;
+    private Double Total;
     private int Cantidad;
     private String NombreCliente;
 
@@ -15,12 +15,12 @@ public class FastFood {
         Tipo = tipo;
     }
 
-    public Double getPrecio() {
-        return Precio;
+    public Double getTotal() {
+        return Total;
     }
 
-    public void setPrecio(Double precio) {
-        Precio = precio;
+    public void setTotal(Double total) {
+        Total = total;
     }
 
     public int getCantidad() {

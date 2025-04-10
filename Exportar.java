@@ -12,7 +12,7 @@ public class Exportar {
                 escriba.write("NOmbreCliente: " + item.getNombreCliente() + "\n");
                 escriba.write("TipoComida: " + item.getTipo() + "\n");
                 escriba.write("Cantidad: " + item.getCantidad() + "\n");
-                escriba.write("Precio: " + item.getPrecio() + "\n");
+                escriba.write("Total: " + item.getTotal() + "\n");
                 escriba.write("---------------------------------------\n");
 
             }

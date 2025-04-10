@@ -18,19 +18,20 @@ public class Menu {
             System.out.println("3: Despachar");
             System.out.println("4: Exportar Pedidos");
             System.out.println("5: Importar Pedidos");
-            System.out.println("6: Salir");
+            System.out.println("6: Modificar pedido ");
+            System.out.println("7: Buscar Turno por nombre");
+            System.out.println("8: Salir");
             System.out.println("-----------------------------");
             while (!sc.hasNextInt()) {
                 System.out.println("Opción no valida por favor verifique....");
                 System.out.println("-----------------------------");
                 sc.next();
-
             }
             opt = sc.nextInt();
             sc.nextLine();
-            System.out.println("-------------------------------------------");
-            if (opt < 1 || opt > 6) {
-                System.out.println("Por favor ingrese un numero entre 1 a 4");
+
+            if (opt < 1 || opt > 8) {
+                System.out.println("Opcion no valida, Por favor ingrese un numero entre 1 a 6");
                 System.out.println("-----------------------------");
                 continue;
             }
@@ -53,12 +54,18 @@ public class Menu {
                     } else {
                         e.exportarArchivo(p);
                     }
-
+                    break;
                 case 5:
                     Importar i = new Importar();
                     p = i.leerArchivo();
                     break;
 
+                case 6:
+                    p = m.Modificar(p);
+                    break;
+                case 7:
+                    m.BuscarTurno(p);
+                    break;
                 default:
                     System.out.println("Fue un Gusto hasta Pronto...");
                     bandera = false;
